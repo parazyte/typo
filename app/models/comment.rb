@@ -10,7 +10,7 @@ class Comment < Feedback
   attr_accessor :user_agent
   attr_accessor :referrer
   attr_accessor :permalink
-
+  
   def notify_user_via_email(user)
     if user.notify_via_email?
       EmailNotify.send_comment(self, user)
@@ -33,7 +33,7 @@ class Comment < Feedback
   end
 
   protected
-
+  
   def article_allows_feedback?
     return true if article.allow_comments?
     errors.add(:article, "Article is not open to comments")

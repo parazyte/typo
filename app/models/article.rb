@@ -49,7 +49,8 @@ class Article < Content
   after_create :add_notifications
   before_save :set_published_at, :ensure_settings_type, :set_permalink
   after_save :post_trigger, :keywords_to_tags, :shorten_url
-
+  before_destroy :destroy_trigger
+  
   scope :category, lambda {|category_id| {:conditions => ['categorizations.category_id = ?', category_id], :include => 'categorizations'}}
   scope :drafts, lambda { { :conditions => { :state => 'draft' }, :order => 'created_at DESC' } }
   scope :without_parent, {:conditions => {:parent_id => nil}}
@@ -416,8 +417,30 @@ class Article < Content
     user.admin? || user_id == user.id
   end
 
-  protected
+  # MATHIAS FUCKED THIS UP
+  def merge_with(other_article_id)
+    id = self.id
+    if (other_article_id != id)
+      merged_article = Article.find(other_article_id)
+      if (merged_article.id > 0)
+        Comment.find_all_by_article_id(other_article_id).each do |c|
+          c.article_id = id
+          c.save!
+        end
+        self.body += "\n" + merged_article.body
+        self.save!
+        merged_article.destroy
+      end
+    end
+    return self.id
+  end
 
+  protected
+  
+  def destroy_trigger
+    self.reload
+  end
+  
   def set_published_at
     if self.published and self[:published_at].nil?
       self[:published_at] = self.created_at || Time.now

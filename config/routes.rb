@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # Mathias fucked this up
+  #match 'admin/content/edit/:id/merge/:merger' => 'admin/content#merge_articles', :as => :merge_articles
+  #match "/admin/content/edit/:id/merge/:id2", :to => "admin/content#merge"
   # for CK Editor
   match 'fm/filemanager(/:action(/:id))', :to => 'Fm::Filemanager', :format => false
   match 'ckeditor/command', :to => 'ckeditor#command', :format => false
@@ -19,7 +22,7 @@ Rails.application.routes.draw do
   match ':year/page/:page', :to => 'articles#index', :year => /\d{4}/, :as => 'articles_by_year_page', :format => false
 
   match 'admin', :to  => 'admin/dashboard#index', :format => false, :as => :admin_dashboard
-
+  
   match 'articles.:format', :to => 'articles#index', :constraints => {:format => 'rss'}, :as => 'rss'
   match 'articles.:format', :to => 'articles#index', :constraints => {:format => 'atom'}, :as => 'atom'
 
@@ -111,7 +114,7 @@ Rails.application.routes.draw do
     match "/admin/#{i}", :to => "admin/#{i}#index", :format => false
     match "/admin/#{i}(/:action(/:id))", :to => "admin/#{i}", :action => nil, :id => nil, :format => false
   end
-
+  
   # default
   root :to  => 'articles#index', :format => false
 
