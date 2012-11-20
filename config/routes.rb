@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # Mathias fucked this up
   #match 'admin/content/edit/:id/merge/:merger' => 'admin/content#merge_articles', :as => :merge_articles
   #match "/admin/content/edit/:id/merge/:id2", :to => "admin/content#merge"
-  match 'merge', :controller => "admin/content", :action => "merge"
+  #match 'merge', :controller => "admin/content", :action => "merge"
   
   # for CK Editor
   match 'fm/filemanager(/:action(/:id))', :to => 'Fm::Filemanager', :format => false
