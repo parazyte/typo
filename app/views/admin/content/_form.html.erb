@@ -149,11 +149,11 @@
   </div>
 </div>
 
-<h4><%= _("Merge Articles") if @article.id %></h4>
-<%= form_tag(url_for(:controller => 'admin/content', :action => "merge", :id => @article.id)) do %>
-  <%= label_tag("Article ID:") if @article.id %>
-  <%= text_field_tag('ArticleID', nil, :name => "merge_with") if @article.id %>
-  <%= submit_tag("Merge") if @article.id %>
+<% if current_user.profile.label  == 'admin' %>
+  <h4><%= _("Merge Articles") if @article.id %></h4>
+  <%= form_tag(url_for(:controller => 'admin/content', :action => "merge", :id => @article.id)) do %>
+    <%= label_tag("Article ID:") if @article.id %>
+    <%= text_field_tag('ArticleID', nil, :name => "merge_with") if @article.id %>
+    <%= submit_tag("Merge") if @article.id %>
+  <% end %>
 <% end %>
-
-

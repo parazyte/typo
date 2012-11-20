@@ -6,7 +6,6 @@ class Admin::ContentController < Admin::BaseController
 
   cache_sweeper :blog_sweeper
 
-  # MATHIAS FUCKED THIS UP
   def merge
     #print "\n\nDEBUG>> merge:: params(id) = #{params[:id]} params(merge_with) = #{params[:merge_with]}\n\n"
     Article.find(params[:id]).merge_with(params[:merge_with])
