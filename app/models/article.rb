@@ -420,18 +420,14 @@ class Article < Content
   # MATHIAS FUCKED THIS UP
   def merge_with(other_article_id)
     id = self.id
-    if (other_article_id != id)
-      merged_article = Article.find(other_article_id)
-      if (merged_article.id > 0)
-        Comment.find_all_by_article_id(other_article_id).each do |c|
-          c.article_id = id
-          c.save!
-        end
-        self.body += "\n" + merged_article.body
-        self.save!
-        merged_article.destroy
-      end
+    merged_article = Article.find(other_article_id)
+    Comment.find_all_by_article_id(other_article_id).each do |c|
+      c.article_id = id
+      c.save!
     end
+    self.body += "\n" + merged_article.body
+    self.save!
+    merged_article.destroy
     return self.id
   end
 

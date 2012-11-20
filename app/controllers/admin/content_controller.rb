@@ -8,7 +8,7 @@ class Admin::ContentController < Admin::BaseController
 
   # MATHIAS FUCKED THIS UP
   def merge
-    #print "\n\nDEBUG! params(id) = #{params[:id]} params(merge_with) = #{params[:merge_with]}\n\n"
+    #print "\n\nDEBUG>> merge:: params(id) = #{params[:id]} params(merge_with) = #{params[:merge_with]}\n\n"
     Article.find(params[:id]).merge_with(params[:merge_with])
     redirect_to "/admin/content/edit/#{params[:id]}"
   end
@@ -31,7 +31,12 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
-    new_or_edit
+    #print "\n\nDEBUG>> new:: params(id) = #{params[:id]} params(merge_with) = #{params[:merge_with]}\n\n"
+    if params[:merge_with]
+      redirect_to params.merge!(:action => 'merge')
+    else
+      new_or_edit
+    end
   end
 
   def edit
@@ -147,6 +152,7 @@ class Admin::ContentController < Admin::BaseController
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
   
   def new_or_edit
+    #print "\n\nDEBUG>> new_or_edit:: params(id) = #{params[:id]} params(merge_with) = #{params[:merge_with]}\n\n"
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
     @article = Article.get_or_build_article(id)
