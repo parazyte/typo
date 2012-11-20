@@ -5,11 +5,11 @@ Feature: Merge Articles
 
   Background:
     Given the blog is set up
-	And the following articles exist:
-	| id | title        | published | author  | body                            |
-  	| 3  | Christmas    | true      | Mathias | Christmas toodle toodle hey hey |
-  	| 4  | My x-mas     | true      | Andreas | My x-mas was dreadful. Yikes... |
-    
+    And the following articles exist:
+    | id | title        | published | author  | body                            |
+    | 3  | Christmas    | true      | Mathias | Christmas toodle toodle hey hey |
+    | 4  | My x-mas     | true      | Andreas | My x-mas was dreadful. Yikes... |
+
   Scenario: Non-admins should not be able to Merge Articles
     Given I am on the manage articles page
     Then I should see "Login"
